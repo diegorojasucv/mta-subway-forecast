@@ -1,0 +1,41 @@
+{
+  "name" : "etl-mta-subway",
+  "jobMode" : "VISUAL",
+  "description" : "",
+  "role" : "arn:aws:iam::191533923576:role/iam-glue",
+  "executionProperty" : {
+    "maxConcurrentRuns" : 1
+  },
+  "command" : {
+    "name" : "glueetl",
+    "scriptLocation" : "s3://aws-glue-assets-191533923576-us-east-1/scripts/t.py",
+    "pythonVersion" : "3"
+  },
+  "defaultArguments" : {
+    "--enable-metrics" : "true",
+    "--enable-spark-ui" : "true",
+    "--spark-event-logs-path" : "s3://aws-glue-assets-191533923576-us-east-1/sparkHistoryLogs/",
+    "--enable-job-insights" : "true",
+    "--enable-observability-metrics" : "true",
+    "--enable-glue-datacatalog" : "true",
+    "--enable-continuous-cloudwatch-log" : "true",
+    "--job-bookmark-option" : "job-bookmark-disable",
+    "--job-language" : "python",
+    "--TempDir" : "s3://aws-glue-assets-191533923576-us-east-1/temporary/"
+  },
+  "maxRetries" : 0,
+  "allocatedCapacity" : 10,
+  "timeout" : 2880,
+  "maxCapacity" : 10.0,
+  "glueVersion" : "4.0",
+  "numberOfWorkers" : 10,
+  "workerType" : "G.1X",
+  "executionClass" : "STANDARD",
+  "codeGenConfigurationNodes" : "{\"node-1731873030719\":{\"S3CsvSource\":{\"AdditionalOptions\":{\"EnableSamplePath\":false,\"SamplePath\":\"s3://mta-subway/raw-data/Master_Products.csv\"},\"Escaper\":\"\",\"Exclusions\":[],\"Name\":\"Amazon S3\",\"OptimizePerformance\":false,\"OutputSchemas\":[{\"Columns\":[{\"Name\":\"product_id\",\"Type\":\"string\"},{\"Name\":\"product_name\",\"Type\":\"string\"},{\"Name\":\"category\",\"Type\":\"string\"},{\"Name\":\"unit_of_measure\",\"Type\":\"string\"},{\"Name\":\"units_lot\",\"Type\":\"string\"},{\"Name\":\"oz\",\"Type\":\"string\"},{\"Name\":\"total_ounces\",\"Type\":\"string\"},{\"Name\":\"product_common_name\",\"Type\":\"string\"},{\"Name\":\"case_convertion\",\"Type\":\"string\"},{\"Name\":\"component_category_name\",\"Type\":\"string\"}]}],\"Paths\":[\"s3://mta-subway/raw-data/Master_Products.csv\"],\"QuoteChar\":\"quote\",\"Recurse\":true,\"Separator\":\"comma\",\"WithHeader\":true}},\"node-1731873218392\":{\"SparkSQL\":{\"Inputs\":[\"node-1731873030719\"],\"Name\":\"SQL Query\",\"OutputSchemas\":[{\"Columns\":[{\"Name\":\"product_id\",\"Type\":\"string\"},{\"Name\":\"product_name\",\"Type\":\"string\"}]}],\"SqlAliases\":[{\"Alias\":\"myDataSource\",\"From\":\"node-1731873030719\"}],\"SqlQuery\":\"select product_id, product_name from myDataSource\"}},\"node-1731873241063\":{\"S3DirectTarget\":{\"AutoDataQuality\":{\"IsEnabled\":false},\"Compression\":\"snappy\",\"Format\":\"csv\",\"Inputs\":[\"node-1731873218392\"],\"Name\":\"Amazon S3\",\"PartitionKeys\":[[\"product_id\"]],\"Path\":\"s3://mta-subway/data-transformed/\",\"SchemaChangePolicy\":{\"EnableUpdateCatalog\":false,\"Table\":\"mta_subway_top_stations\",\"UpdateBehavior\":\"UPDATE_IN_DATABASE\"}}}}",
+  "sourceControlDetails" : {
+    "provider" : "GITHUB",
+    "repository" : "mta-subway-forecast",
+    "branch" : "aws-glue-branch",
+    "folder" : "aws-glue-etl"
+  }
+}
