@@ -2,7 +2,7 @@
 
 A Streamlit app showing the subway ridership predictions for the next month for New York (Manhattan) stations.
 
-[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://gdp-dashboard-template.streamlit.app/)
+[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://ny-subway-ridership-predictor.streamlit.app/)
 
 ### How to run it on your own machine
 
